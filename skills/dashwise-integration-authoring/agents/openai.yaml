@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dashwise Integration Authoring"
+  short_description: "Create and validate Dashwise integrations"
+  default_prompt: "Use $dashwise-integration-authoring to create a Dashwise integration from an external service API."
