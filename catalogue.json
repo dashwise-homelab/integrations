@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Karakeep",
+    "category": "bookmarks",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/bookmarks/karakeep/integration.yaml"
+  },
+  {
+    "name": "Stock",
+    "category": "dashwise",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/dashwise/markets/integration.yaml"
+  },
+  {
+    "name": "Weather",
+    "category": "dashwise",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/dashwise/weather/integration.yaml"
+  },
+  {
+    "name": "GitHub Repository",
+    "category": "development",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/development/github/integration.yaml"
+  },
+  {
+    "name": "Jellyfin",
+    "category": "media",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/media/jellyfin/integration.yaml"
+  },
+  {
+    "name": "Beszel",
+    "category": "monitoring",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/monitoring/beszel/integration.yaml"
+  },
+  {
+    "name": "Dashdot",
+    "category": "monitoring",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/monitoring/dashdot/integration.yaml"
+  },
+  {
+    "name": "Nexterm",
+    "category": "server-management",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/server-management/nexterm/integration.yaml"
+  }
+]
