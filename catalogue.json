@@ -1,41 +1,49 @@
 [
   {
     "name": "Karakeep",
+    "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/karakeep-light.png",
     "category": "bookmarks",
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/bookmarks/karakeep/integration.yaml"
   },
   {
     "name": "Stock",
+    "icon": "https://api.iconify.design/mdi%3Achart-line.svg",
     "category": "dashwise",
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/dashwise/markets/integration.yaml"
   },
   {
     "name": "Weather",
+    "icon": "https://api.iconify.design/mdi%3Aweather-sunny.svg",
     "category": "dashwise",
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/dashwise/weather/integration.yaml"
   },
   {
     "name": "GitHub Repository",
+    "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/github-light.png",
     "category": "development",
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/development/github/integration.yaml"
   },
   {
     "name": "Jellyfin",
+    "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/jellyfin-light.png",
     "category": "media",
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/media/jellyfin/integration.yaml"
   },
   {
     "name": "Beszel",
+    "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/beszel-light.png",
     "category": "monitoring",
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/monitoring/beszel/integration.yaml"
   },
   {
     "name": "Dashdot",
+    "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/dashdot.png",
     "category": "monitoring",
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/monitoring/dashdot/integration.yaml"
   },
   {
     "name": "Nexterm",
+    "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/nexterm-light.png",
     "category": "server-management",
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/server-management/nexterm/integration.yaml"
   }
