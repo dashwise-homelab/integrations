@@ -1,0 +1,133 @@
+# Dashwise Integration YAML
+details:
+  name: AdGuard Home
+  description: DNS query, blocking, and known-client statistics from AdGuard Home.
+  author: Dashwise
+  version: 1.0.0
+  repository: "https://github.com/AdguardTeam/AdGuardHome"
+  icon: "/icons/png/adguard-home.png"
+
+  links:
+    website: "https://adguard.com/adguard-home/overview.html"
+    documentation: "https://github.com/AdguardTeam/AdGuardHome/tree/master/openapi"
+    support: "https://github.com/AdguardTeam/AdGuardHome/issues"
+
+  categories:
+    - Monitoring
+
+
+configuration:
+  environment_variables:
+    URL:
+      required: true
+      description: "Base URL of your AdGuard Home instance, without a trailing slash (for example http://adguardhome:3000)"
+
+    BASIC_AUTH:
+      required: true
+      edit: "overwrite-only"
+      description: "Base64-encoded AdGuard Home credentials in username:password format"
+
+
+  endpoints:
+    fetch-stats:
+      method: GET
+      url: "${URL}/control/stats"
+      auth: "Basic ${BASIC_AUTH}"
+      response:
+        type: json
+      discard_unmapped: true
+
+      response_mapping:
+        queries: "num_dns_queries"
+        blocked: "num_blocked_filtering"
+
+
+    fetch-clients:
+      method: GET
+      url: "${URL}/control/clients"
+      auth: "Basic ${BASIC_AUTH}"
+      response:
+        type: json
+      discard_unmapped: true
+
+      response_mapping:
+        clients:
+          iterate: "clients"
+          mappingProperties:
+            name: "name"
+            ids: "ids"
+
+        auto_clients:
+          iterate: "auto_clients"
+          mappingProperties:
+            ip: "ip"
+            name: "name"
+
+
+  computed:
+    summary:
+      queries:
+        operation: expr
+        expression: "queries"
+        inputs:
+          queries: "this.endpoints.fetch-stats.mappedResponse.queries"
+        fallback: 0
+
+      blocked_count:
+        operation: expr
+        expression: "blocked"
+        inputs:
+          blocked: "this.endpoints.fetch-stats.mappedResponse.blocked"
+        fallback: 0
+
+      blocked_percent:
+        operation: expr
+        expression: "round((blocked / max(queries, 1)) * 1000) / 10"
+        inputs:
+          blocked: "this.endpoints.fetch-stats.mappedResponse.blocked"
+          queries: "this.endpoints.fetch-stats.mappedResponse.queries"
+        fallback: 0
+
+      clients_count:
+        operation: expr
+        expression: "length(configured_clients) + length(auto_clients)"
+        inputs:
+          configured_clients: "this.endpoints.fetch-clients.mappedResponse.clients"
+          auto_clients: "this.endpoints.fetch-clients.mappedResponse.auto_clients"
+        fallback: 0
+
+
+  widgets:
+    - name: "AdGuard Home Overview"
+      key: "adguardhome-overview"
+      template: "columns"
+
+      depends_on:
+        - "computed.summary"
+
+      refresh_interval: 30
+
+      data:
+        source: "computed.summary"
+        input:
+          URL: "${URL}"
+          BASIC_AUTH: "${BASIC_AUTH}"
+
+      properties:
+        header:
+          title: "AdGuard Home • Stats (24h)"
+          icon: "url:/icons/png/adguard-home.png"
+          titleAction: "url:${URL}"
+
+        columns:
+          - label: "Queries"
+            primary: "${computed.summary.queries}"
+            secondary: "DNS queries"
+
+          - label: "Blocked"
+            primary: "${computed.summary.blocked_percent}%"
+            secondary: "${computed.summary.blocked_count} blocked"
+
+          - label: "Clients"
+            primary: "${computed.summary.clients_count}"
+            secondary: "Known clients"

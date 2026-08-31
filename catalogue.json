@@ -30,6 +30,12 @@
     "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/media/jellyfin/integration.yaml"
   },
   {
+    "name": "AdGuard Home",
+    "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/adguard-home.png",
+    "category": "dns-filtering",
+    "url": "https://raw.githubusercontent.com/dashwise-homelab/integrations/main/dns-filtering/adguardhome/integration.yaml"
+  },
+  {
     "name": "Beszel",
     "icon": "https://cdn.jsdelivr.net/gh/selfhst/icons@main/png/beszel-light.png",
     "category": "monitoring",
