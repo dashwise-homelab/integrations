@@ -115,7 +115,7 @@ configuration:
 
       properties:
         header:
-          title: "AdHuard Home • Stats (24h)"
+          title: "AdGuard Home • Stats (24h)"
           icon: "url:/icons/png/adguard-home.png"
           titleAction: "url:${URL}"
 
