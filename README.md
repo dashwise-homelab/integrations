@@ -24,6 +24,7 @@ The YAML file is the machine-readable source used by Dashwise. The Markdown file
 | `development` | GitHub |
 | `media` | Jellyfin |
 | `bookmarks` | Karakeep |
+| `dns-filtering` | AdGuard Home |
 
 ## Adding an integration
 
