@@ -1,8 +1,7 @@
 ---
-
 name: dashwise-integration-authoring
-description: Create, extend, or review Dashwise community integrations backed by integration.yaml files. Use when adding an external-service adapter, defining widget or glanceable consumers, mapping endpoint responses, adding computed runtime data, documenting an integration, or validating integration runtime and page-config behavior.
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+description: Create, extend, or review Dashwise community integrations backed by integration.yaml files. Use when adding an external-service adapter, defining widget or glanceable consumers, mapping endpoint responses, adding computed fields, documenting an integration, or validating integration runtime and page-config behavior.
+---
 
 # Dashwise Integration Authoring
 
