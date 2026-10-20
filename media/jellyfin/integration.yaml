@@ -19,7 +19,7 @@ configuration:
       required: true
       description: "Base URL of your Jellyfin instance (e.g. https://jellyfin.example.com)"
     TOKEN:
-      required: false
+      required: true
       edit: "overwrite-only"
       description: "Jellyfin API token (sent as X-Emby-Token header)"
     INCLUDE_ITEM_TYPES:
@@ -41,16 +41,11 @@ configuration:
       insecure_skip_verify: true
       response:
         type: json
-        # Jellyfin can return Items at root array, .Items, .items, or .Data —
-        # data_path_fallback tries each in order until one resolves to an array
-        data_path_fallback:
-          - "Items"
-          - "items"
-          - "Data"
-          - "root"
+        # GET /Items returns a BaseItemDtoQueryResult whose item list is Items.
+        data_path: "Items"
       response_mapping:
         items:
-          iterate: "root"
+          iterate: "Items"
           mappingProperties:
             id: "Id"
             name:
@@ -62,32 +57,13 @@ configuration:
             series_name: "SeriesName"
             album: "Album"
 
-  computed:
-    search_display:
-      iterate_over: "this.endpoints.fetch-items.mappedResponse.items"
-      key: "${id}"
-      fields:
-        id: "${id}"
-        name: "${name}"
-        type: "${type}"
-        # Secondary label: series name > album > type > ""
-        secondary:
-          operation: coalesce
-          fields: ["series_name", "album", "type"]
-          fallback: ""
-        action: "url:${URL}/web/index.html#/details?id=${id}"
-        thumbnail: "${URL}/Items/${id}/Images/Primary?tag=${primary_image_tag}"
-
-  # Jellyfin has no dashboard widget in the original code — search_items only.
   # A "Recently Added" widget is included as a useful default.
   widgets:
     - name: "Jellyfin Recently Added"
       key: "jellyfin-recently-added"
       template: "vertical-list"
-      depends_on:
-        - "computed.search_display"
       data:
-        source: "computed.search_display"
+        source: "endpoints.fetch-items.mappedResponse.items"
         input:
           URL: "${URL}"
           TOKEN: "${TOKEN}"
@@ -95,34 +71,30 @@ configuration:
           LIMIT: "${LIMIT}"
       properties:
         header:
-          title: "${URL} ??? Recently Added"
-          icon: "integrations.jellyfin.details.icon"
+          title: "Recently Added"
+          icon: "/icons/png/jellyfin-light.png"
           titleAction: "url:${URL}"
         list:
-          # Items come back in server order; Jellyfin returns newest-first
-          # when no explicit sort is requested, so no additional sort needed.
-          iterate_over: "computed.search_display"
+          # Jellyfin returns items in the server's default order.
+          iterate_over: "endpoints.fetch-items.mappedResponse.items"
           max_items: 10
           prototype:
-            thumbnail: "${thumbnail} ??? /icons/png/jellyfin-light.png"
+            thumbnail: "${URL}/Items/${id}/Images/Primary?tag=${primary_image_tag} ??? /icons/png/jellyfin-light.png"
             title: "${name} ??? Dune"
-            titleAction: "url:${action}"
-            subtitle: "${secondary} ??? Movie"
+            titleAction: "url:${URL}/web/index.html#/details?id=${id}"
+            subtitle: "${series_name} ??? ${album} ??? ${type} ??? Movie"
 
   shortcuts:
     - my_collection:
-        iterate_over: "computed.search_display"
-        # Sort alphabetically, matching the original localeCompare sort
-        sort_by: "name"
-        sort_order: "asc"
+        iterate_over: "this.endpoints.fetch-items.mappedResponse.items"
         mappingProperties:
           id: "${id}"
           name: "${name}"
-          icon: "integrations.jellyfin.details.icon"
-          secondaryInfo: "${secondary}"
+          icon: "/icons/png/jellyfin-light.png"
+          secondaryInfo: "${type}"
           type: "jellyfinItem"
-          action: "url:${action}"
+          action: "url:${URL}/web/index.html#/details?id=${id}"
           tags:
             - "${name}"
             - "Jellyfin"
-            - "${secondary}"
+            - "${type}"
